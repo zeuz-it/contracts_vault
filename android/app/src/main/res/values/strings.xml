@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Contracts Vault</string>
+    <string name="facebook_app_id">2076667319199265</string>
+    <string name="fb_login_protocol_scheme">fb2076667319199265</string>
+    <string name="facebook_client_token">476bef1dfb57d364a7f02445c65e3e60</string>
+</resources>
