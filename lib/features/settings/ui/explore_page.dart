@@ -25,7 +25,7 @@ class _ExplorePageState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     return FadedSlideAnimation(
-      beginOffset: const Offset(0.0, 0.16),
+      beginOffset: const Offset(0.56, 0.16),
       endOffset: Offset.zero,
       child: PageView.builder(
         controller: _controller,

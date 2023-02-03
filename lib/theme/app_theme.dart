@@ -15,7 +15,6 @@ class AppTheme {
     primaryColor: primaryColor,
     primaryColorLight: primaryColorLight,
     primaryColorDark: primaryColorDark,
-    backgroundColor: backgroundColor,
     cardColor: cardColor,
     hintColor: hintColor,
     disabledColor: disabledColor,
@@ -24,6 +23,7 @@ class AppTheme {
       secondary: primaryColor,
       onSecondary: primaryColorLight,
       primary: Color(0xffB3BCD9),
+      background: backgroundColor,
     ),
     fontFamily: "ProductSans",
 
@@ -50,7 +50,8 @@ class AppTheme {
 
     /// text theme
     textTheme: const TextTheme(
-      bodySmall: TextStyle(color: primaryColorLight, fontWeight: FontWeight.bold),
+      bodySmall:
+          TextStyle(color: primaryColorLight, fontWeight: FontWeight.bold),
       labelSmall: TextStyle(letterSpacing: 0.2),
       bodyLarge: TextStyle(),
       bodyMedium: TextStyle(),

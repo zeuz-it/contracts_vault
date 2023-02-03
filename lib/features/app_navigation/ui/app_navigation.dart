@@ -1,9 +1,9 @@
 import 'package:blur/blur.dart';
+import 'package:contracts_vault/features/add_contract/ui/create_item_page.dart';
 import 'package:flutter/material.dart';
 import '/../../../features/custom_scaffold/ui/custom_scaffold.dart';
 import '/../../../features/settings/ui/explore_page.dart';
 import '/../../../features/contracts/ui/notifications_page.dart';
-import '/../../../routes/app_navigator.dart';
 
 class AppNavigation extends StatefulWidget {
   const AppNavigation({Key? key}) : super(key: key);
@@ -68,7 +68,7 @@ class _AppNavigationState extends State<AppNavigation> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () =>
-              Navigator.pushNamed(context, AppNavigator.createItemPage),
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateItemPage())),
           child: const Icon(Icons.add),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

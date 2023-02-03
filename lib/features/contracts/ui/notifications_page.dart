@@ -16,7 +16,7 @@ class NotificationsPage extends StatelessWidget {
     var theme = Theme.of(context);
     var s = S.of(context);
     return FadedSlideAnimation(
-      beginOffset: const Offset(0.0, 0.16),
+      beginOffset: const Offset(-0.56, 0.16),
       endOffset: Offset.zero,
       child: Scaffold(
         appBar: AppBar(
