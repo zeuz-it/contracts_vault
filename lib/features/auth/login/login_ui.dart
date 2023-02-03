@@ -9,6 +9,7 @@ import '/../../../generated/assets.dart';
 import '/../../../generated/l10n.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../login_navigator.dart';
 
@@ -243,6 +244,73 @@ class _LoginUIState extends State<LoginUI> {
     }
   }
 
+  Future signInWithApple(BuildContext context) async {
+    try {
+      final appleIdCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        // webAuthenticationOptions: WebAuthenticationOptions(
+        //   clientId: 'apple sign in flutter firebase',
+        //   redirectUri: Uri.parse(
+        //     'https://ninth-pear-jitterbug.glitch.me/callbacks/sign_in_with_apple',
+        //   ),
+        // ),
+      );
+
+      final oAuthCredential = OAuthProvider('apple.com').credential(
+        idToken: appleIdCredential.identityToken,
+        accessToken: appleIdCredential.authorizationCode,
+      );
+
+      // Use the OAuthCredential to sign in to Firebase.
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(oAuthCredential);
+      
+    } on FirebaseAuthException catch (e) {
+      showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return Center(
+            child: Container(
+              color: Colors.transparent,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          e.message.toString() + e.code.toString(),
+                          style:
+                              const TextStyle(color: Colors.red, fontSize: 24),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text("Ok"),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ).frosted(
+              frostColor: Theme.of(context).hintColor,
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+              borderRadius: BorderRadius.circular(18),
+            ),
+          );
+        },
+      );
+    }
+  }
+
   bool _emailValid(String email) {
     return RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -420,7 +488,7 @@ class _LoginUIState extends State<LoginUI> {
                             image: Assets.iconsApple,
                             color: theme.primaryColorLight,
                             textColor: theme.primaryColorDark,
-                            onTap: () {},
+                            onTap: () => signInWithApple(context),
                           ),
                         ],
                       ),
