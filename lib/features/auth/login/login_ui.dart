@@ -245,18 +245,23 @@ class _LoginUIState extends State<LoginUI> {
   }
 
   Future signInWithApple(BuildContext context) async {
+    /* 
+      Rehber => https://github.com/nickmeinhold/apple-sign-in-flutter-firebase
+      Package => https://pub.dev/packages/sign_in_with_apple
+      Glitch => https://glitch.com/~ninth-pear-jitterbug
+    */ 
     try {
       final appleIdCredential = await SignInWithApple.getAppleIDCredential(
         scopes: [
           AppleIDAuthorizationScopes.email,
           AppleIDAuthorizationScopes.fullName,
         ],
-        // webAuthenticationOptions: WebAuthenticationOptions(
-        //   clientId: 'apple sign in flutter firebase',
-        //   redirectUri: Uri.parse(
-        //     'https://ninth-pear-jitterbug.glitch.me/callbacks/sign_in_with_apple',
-        //   ),
-        // ),
+        webAuthenticationOptions: WebAuthenticationOptions(
+          clientId: 'apple sign in flutter firebase',
+          redirectUri: Uri.parse(
+            'https://ninth-pear-jitterbug.glitch.me/callbacks/sign_in_with_apple',
+          ),
+        ),
       );
 
       final oAuthCredential = OAuthProvider('apple.com').credential(
