@@ -1,9 +1,9 @@
-import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../generated/assets.dart';
 import '../../../generated/l10n.dart';
-import '../../../routes/app_navigator.dart';
+import '../../auth/bloc/auth_bloc.dart';
 import '../../components/custom_button.dart';
 import '../../components/entry_field.dart';
 import '../../custom_scaffold/ui/custom_scaffold.dart';
@@ -101,10 +101,15 @@ class CreateItemPage extends StatelessWidget {
                       right: 40,
                       bottom: 20,
                       child: CustomButton(
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          AppNavigator.setPricePage,
-                        ),
+                        onTap: () {
+                          debugPrint(
+                            context.read<AuthBloc>().authRepository.user(),
+                          );
+                        },
+                        // onTap: () => Navigator.pushNamed(
+                        //   context,
+                        //   AppNavigator.setPricePage,
+                        // ),
                       ),
                     ),
                 ],

@@ -1,15 +1,13 @@
-import 'package:blur/blur.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:contracts_vault/features/app_navigation/ui/app_navigation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../bloc/auth_bloc.dart';
 import '/../../../features/components/custom_button.dart';
 import '/../../../features/components/entry_field.dart';
 import '/../../../features/custom_scaffold/ui/custom_scaffold.dart';
 import '/../../../features/language/ui/language_sheet.dart';
 import '/../../../generated/assets.dart';
 import '/../../../generated/l10n.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../login_navigator.dart';
 
@@ -25,296 +23,6 @@ class _LoginUIState extends State<LoginUI> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool isLoading = false;
-
-  Future signIn() async {
-    setState(() {
-      isLoading = true;
-    });
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-      setState(() {
-        isLoading = false;
-      });
-
-      final user = FirebaseAuth.instance.currentUser;
-      if (user != null && !user.emailVerified) {
-        FirebaseAuth.instance.signOut();
-        showDialog<void>(
-          context: context,
-          builder: (BuildContext context) {
-            return Center(
-              child: Container(
-                color: Colors.transparent,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        Flexible(
-                          child: Text(
-                            "Lütfen email adresinizi doğrulayın, gereksiz kutusuna bakmayı unutmaıyn.",
-                            style: TextStyle(color: Colors.red, fontSize: 24),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: const Text("Ok"),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ).frosted(
-                frostColor: Theme.of(context).hintColor,
-                padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-                borderRadius: BorderRadius.circular(18),
-              ),
-            );
-          },
-        );
-      }
-    } on FirebaseAuthException catch (e) {
-      showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return Center(
-            child: Container(
-              color: Colors.transparent,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          e.message.toString() + e.code.toString(),
-                          style:
-                              const TextStyle(color: Colors.red, fontSize: 24),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: const Text("Ok"),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ).frosted(
-              frostColor: Theme.of(context).hintColor,
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-              borderRadius: BorderRadius.circular(18),
-            ),
-          );
-        },
-      );
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  Future signInWithGoogle(BuildContext context) async {
-    try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-
-      if (googleAuth?.accessToken != null && googleAuth?.idToken != null) {
-        final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth?.accessToken,
-          idToken: googleAuth?.idToken,
-        );
-
-        UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithCredential(credential);
-
-        // if(userCredential.user != null){
-        //   if(userCredential.additionalUserInfo!.isNewUser){}
-        // }
-      }
-    } on FirebaseAuthException catch (e) {
-      showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return Center(
-            child: Container(
-              color: Colors.transparent,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          e.message.toString() + e.code.toString(),
-                          style:
-                              const TextStyle(color: Colors.red, fontSize: 24),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: const Text("Ok"),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ).frosted(
-              frostColor: Theme.of(context).hintColor,
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-              borderRadius: BorderRadius.circular(18),
-            ),
-          );
-        },
-      );
-    }
-  }
-
-  Future signInWithFacebook(BuildContext context) async {
-    try {
-      final LoginResult loginResult = await FacebookAuth.instance.login();
-
-      final OAuthCredential facebookAuthCredential =
-          FacebookAuthProvider.credential(loginResult.accessToken!.token);
-
-      await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-    } on FirebaseAuthException catch (e) {
-      showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return Center(
-            child: Container(
-              color: Colors.transparent,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          e.message.toString() + e.code.toString(),
-                          style:
-                              const TextStyle(color: Colors.red, fontSize: 24),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: const Text("Ok"),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ).frosted(
-              frostColor: Theme.of(context).hintColor,
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-              borderRadius: BorderRadius.circular(18),
-            ),
-          );
-        },
-      );
-    }
-  }
-
-  Future signInWithApple(BuildContext context) async {
-    /* 
-      Rehber => https://github.com/nickmeinhold/apple-sign-in-flutter-firebase
-      Package => https://pub.dev/packages/sign_in_with_apple
-      Glitch => https://glitch.com/~ninth-pear-jitterbug
-    */ 
-    try {
-      final appleIdCredential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-        webAuthenticationOptions: WebAuthenticationOptions(
-          clientId: 'apple sign in flutter firebase',
-          redirectUri: Uri.parse(
-            'https://ninth-pear-jitterbug.glitch.me/callbacks/sign_in_with_apple',
-          ),
-        ),
-      );
-
-      final oAuthCredential = OAuthProvider('apple.com').credential(
-        idToken: appleIdCredential.identityToken,
-        accessToken: appleIdCredential.authorizationCode,
-      );
-
-      // Use the OAuthCredential to sign in to Firebase.
-      final userCredential = await FirebaseAuth.instance.signInWithCredential(oAuthCredential);
-      
-    } on FirebaseAuthException catch (e) {
-      showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return Center(
-            child: Container(
-              color: Colors.transparent,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          e.message.toString() + e.code.toString(),
-                          style:
-                              const TextStyle(color: Colors.red, fontSize: 24),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: const Text("Ok"),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ).frosted(
-              frostColor: Theme.of(context).hintColor,
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-              borderRadius: BorderRadius.circular(18),
-            ),
-          );
-        },
-      );
-    }
-  }
 
   bool _emailValid(String email) {
     return RegExp(
@@ -354,157 +62,218 @@ class _LoginUIState extends State<LoginUI> {
     return CustomScaffold(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.95,
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Spacer(flex: 2),
-                  // Image.asset(Assets.imagesLogo, scale: 1),
-                  const SizedBox(
-                    width: 200,
-                    height: 200,
-                    child: Image(
-                      image: AssetImage("assets/images/logo.png"),
-                      fit: BoxFit.fitHeight,
+        body: BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state is Authenticated) {
+              // Navigating to the dashboard screen if the user is authenticated
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AppNavigation()));
+            }
+            if (state is AuthError) {
+              // Showing the error message if the user has entered invalid credentials
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(state.error)));
+            }
+          },
+          child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+            if (state is Loading) {
+              // Showing the loading indicator while the user is signing in
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state is UnAuthenticated) {
+              return SingleChildScrollView(
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.95,
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Spacer(flex: 2),
+                        // Image.asset(Assets.imagesLogo, scale: 1),
+                        const SizedBox(
+                          width: 200,
+                          height: 200,
+                          child: Image(
+                            image: AssetImage("assets/images/logo.png"),
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                        EntryField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Lütfen bir email adresi girin.';
+                            } else if (!_emailValid(value)) {
+                              return 'Lütfen geçerli bir email adresi girin.';
+                            }
+                          },
+                          controller: _emailController,
+                          label: s.emailAddress,
+                          hint: s.enterEmailAddress,
+                          maxLines: 1,
+                        ),
+                        EntryField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Lütfen bir password girin.';
+                            }
+                          },
+                          controller: _passwordController,
+                          label: s.password,
+                          hint: s.enterPassword,
+                          maxLines: 1,
+                        ),
+                        const Spacer(),
+                        Column(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: isLoading
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: const [
+                                        Text("Loading..."),
+                                        SizedBox(width: 10),
+                                        CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
+                                      ],
+                                    )
+                                  : CustomButton(
+                                      padding: const EdgeInsets.all(14),
+                                      onTap: () {
+                                        if (_formKey.currentState!.validate()) {
+                                          // signIn();
+                                          _authenticateWithEmailAndPassword(
+                                              context);
+                                        }
+                                      },
+                                    ),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        /* Sign Up*/
+                        CustomButton(
+                          padding: const EdgeInsets.all(0),
+                          color: Colors.transparent,
+                          text: S.of(context).signUp,
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            LoginRoutes.registration,
+                            arguments: '',
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          S.of(context).orContinueWith,
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.titleMedium,
+                        ),
+                        const Spacer(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
+                              children: [
+                                CustomButton(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(16, 10, 16, 12),
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  fontSize: 12,
+                                  text: S.of(context).facebook,
+                                  image: Assets.iconsFacebook,
+                                  color: theme.primaryColorLight,
+                                  textColor: theme.primaryColorDark,
+                                  onTap: () =>
+                                      _authenticateWithFacebook(context),
+                                  // onTap: (){},
+                                ),
+                                const SizedBox(height: 16),
+                                CustomButton(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(16, 10, 16, 12),
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  fontSize: 12,
+                                  text: S.of(context).google,
+                                  image: Assets.iconsGoogle,
+                                  color: theme.primaryColorLight,
+                                  textColor: theme.primaryColorDark,
+                                  onTap: () => _authenticateWithGoogle(context),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                CustomButton(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(16, 10, 16, 12),
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  fontSize: 12,
+                                  text: S.of(context).phone,
+                                  image: Assets.iconsPhone,
+                                  color: theme.primaryColorLight,
+                                  textColor: theme.primaryColorDark,
+                                  onTap: () {},
+                                ),
+                                const SizedBox(height: 16),
+                                CustomButton(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(16, 10, 16, 12),
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  fontSize: 12,
+                                  text: S.of(context).apple,
+                                  image: Assets.iconsApple,
+                                  color: theme.primaryColorLight,
+                                  textColor: theme.primaryColorDark,
+                                  onTap: () => _authenticateWithApple(context),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  EntryField(
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Lütfen bir email adresi girin.';
-                      } else if (!_emailValid(value)) {
-                        return 'Lütfen geçerli bir email adresi girin.';
-                      }
-                    },
-                    controller: _emailController,
-                    label: s.emailAddress,
-                    hint: s.enterEmailAddress,
-                    maxLines: 1,
-                  ),
-                  EntryField(
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Lütfen bir password girin.';
-                      }
-                    },
-                    controller: _passwordController,
-                    label: s.password,
-                    hint: s.enterPassword,
-                    maxLines: 1,
-                  ),
-                  const Spacer(),
-                  Column(
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: isLoading
-                            ? Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Text("Loading..."),
-                                  SizedBox(width: 10),
-                                  CircularProgressIndicator(
-                                    color: Colors.white,
-                                  ),
-                                ],
-                              )
-                            : CustomButton(
-                                padding: const EdgeInsets.all(14),
-                                onTap: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    signIn();
-                                  }
-                                },
-                              ),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  /* Sign Up*/
-                  CustomButton(
-                    padding: const EdgeInsets.all(0),
-                    color: Colors.transparent,
-                    text: S.of(context).signUp,
-                    onTap: () => Navigator.pushNamed(
-                      context,
-                      LoginRoutes.registration,
-                      arguments: '',
-                    ),
-                  ),
-                  const Spacer(),
-                  Text(
-                    S.of(context).orContinueWith,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.titleMedium,
-                  ),
-                  const Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        children: [
-                          CustomButton(
-                            padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
-                            width: MediaQuery.of(context).size.width / 3,
-                            fontSize: 12,
-                            text: S.of(context).facebook,
-                            image: Assets.iconsFacebook,
-                            color: theme.primaryColorLight,
-                            textColor: theme.primaryColorDark,
-                            onTap: () => signInWithFacebook(context),
-                            // onTap: (){},
-                          ),
-                          const SizedBox(height: 16),
-                          CustomButton(
-                            padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
-                            width: MediaQuery.of(context).size.width / 3,
-                            fontSize: 12,
-                            text: S.of(context).google,
-                            image: Assets.iconsGoogle,
-                            color: theme.primaryColorLight,
-                            textColor: theme.primaryColorDark,
-                            onTap: () => signInWithGoogle(context),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          CustomButton(
-                            padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
-                            width: MediaQuery.of(context).size.width / 3,
-                            fontSize: 12,
-                            text: S.of(context).phone,
-                            image: Assets.iconsPhone,
-                            color: theme.primaryColorLight,
-                            textColor: theme.primaryColorDark,
-                            onTap: () {},
-                          ),
-                          const SizedBox(height: 16),
-                          CustomButton(
-                            padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
-                            width: MediaQuery.of(context).size.width / 3,
-                            fontSize: 12,
-                            text: S.of(context).apple,
-                            image: Assets.iconsApple,
-                            color: theme.primaryColorLight,
-                            textColor: theme.primaryColorDark,
-                            onTap: () => signInWithApple(context),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+                ),
+              );
+            }
+            return Container();
+          }),
         ),
       ),
+    );
+  }
+
+  void _authenticateWithEmailAndPassword(context) {
+    if (_formKey.currentState!.validate()) {
+      BlocProvider.of<AuthBloc>(context).add(
+        SignInRequested(_emailController.text, _passwordController.text),
+      );
+    }
+  }
+
+  void _authenticateWithGoogle(context) {
+    BlocProvider.of<AuthBloc>(context).add(
+      GoogleSignInRequested(),
+    );
+  }
+
+  void _authenticateWithFacebook(context) {
+    BlocProvider.of<AuthBloc>(context).add(
+      FacebookSignInRequested(),
+    );
+  }
+
+  void _authenticateWithApple(context) {
+    BlocProvider.of<AuthBloc>(context).add(
+      AppleSignInRequested(),
     );
   }
 }

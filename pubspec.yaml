@@ -48,6 +48,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.4.1
   sign_in_with_apple: ^4.3.0
+  equatable: ^2.0.5
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:

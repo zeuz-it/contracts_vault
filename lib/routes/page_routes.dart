@@ -1,3 +1,7 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../features/auth/bloc/auth_bloc.dart';
+import '../features/auth/data/repositories/auth_repository.dart';
 import '/../../../features/app_navigation/ui/app_navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

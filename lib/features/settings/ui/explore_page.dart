@@ -2,6 +2,8 @@ import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:blur/blur.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../auth/bloc/auth_bloc.dart';
 import '/../../../features/components/curved_image.dart';
 import '../../media.dart';
 import '/../../../features/seller/ui/seller_row.dart';
@@ -80,7 +82,8 @@ class ExploreCard extends StatelessWidget {
                 icon: const Icon(Icons.close),
                 color: theme.disabledColor,
                 // onPressed: onPageChange,
-                onPressed: () => FirebaseAuth.instance.signOut(),
+                // onPressed: () => FirebaseAuth.instance.signOut(),
+                onPressed: () => context.read<AuthBloc>().add(SignOutRequested()),
               ),
               const SizedBox(width: 4),
             ],

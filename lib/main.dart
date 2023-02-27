@@ -1,3 +1,5 @@
+import 'package:contracts_vault/features/auth/bloc/auth_bloc.dart';
+import 'package:contracts_vault/features/auth/data/repositories/auth_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,20 +27,35 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LanguageCubit, Locale>(
       builder: (context, locale) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.darkTheme,
-          locale: locale,
-          localizationsDelegates: const [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          supportedLocales: S.delegate.supportedLocales,
-          initialRoute: PageRoutes.root,
-          routes: PageRoutes.routes(),
+        return RepositoryProvider(
+          create: (context) => AuthRepository(),
+          child: BlocProvider(
+            create: (context) => AuthBloc(
+              authRepository: RepositoryProvider.of<AuthRepository>(context),
+            ),
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.darkTheme,
+              locale: locale,
+              localizationsDelegates: const [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              supportedLocales: S.delegate.supportedLocales,
+              initialRoute: PageRoutes.root,
+              routes: PageRoutes.routes(),
+            ),
+          ),
         );
+        /* 
+          Kullanıcı arayüzünde(UI) AuthRepository'ye erişmek için MaterialApp'i 
+          RepositoryProvider ile sarmamız gerekir.
+
+          Ayrıca Bloc'un State'lerine ve Event'larına(Olaylarına) erişmek için MaterialApp'i 
+          BlocProvider ile sarmamız gerekir.
+        */ 
       },
     );
   }
