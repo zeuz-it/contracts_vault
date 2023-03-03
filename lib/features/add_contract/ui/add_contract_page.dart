@@ -14,7 +14,6 @@ import '../../custom_scaffold/ui/custom_scaffold.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:intl/intl.dart';
 
-
 class AddContractPage extends StatefulWidget {
   const AddContractPage({super.key});
 
@@ -121,9 +120,10 @@ class _AddContractPageState extends State<AddContractPage> {
                 });
               },
               controlsBuilder: (context, ControlsDetails controls) {
-                return Container(
-                  margin: const EdgeInsets.only(top: 50),
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Expanded(
                         child: currentStep != 0
@@ -160,192 +160,207 @@ class _AddContractPageState extends State<AddContractPage> {
           state: currentStep > 0 ? StepState.complete : StepState.indexed,
           isActive: currentStep >= 0,
           title: const Text(''),
-          content: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              EntryField(
-                controller: contractName,
-                label: S.of(context).contractName,
-                hint: S.of(context).contractName,
-                maxLines: 1,
-                color: Colors.white,
+          content: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.65,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  EntryField(
+                    controller: contractName,
+                    label: S.of(context).contractName,
+                    hint: S.of(context).contractName,
+                    maxLines: 1,
+                    color: Colors.white,
+                    isTopElement: true,
+                  ),
+                  DropdownField(
+                    label: S.of(context).categories,
+                    hint: S.of(context).categories,
+                    color: Colors.white,
+                    options: categories,
+                  ),
+                  DropdownField(
+                    label: "Person",
+                    hint: "Person",
+                    color: Colors.white,
+                    options: person,
+                  ),
+                  DropdownField(
+                    label: "Company",
+                    hint: "Company",
+                    color: Colors.white,
+                    options: company,
+                  ),
+                  DropdownField(
+                    label: "ContractType",
+                    hint: "ContractType",
+                    color: Colors.white,
+                    options: contractType,
+                  ),
+                  EntryField(
+                    controller: contractNumber,
+                    label: "Contract Number",
+                    hint: "Contract Number",
+                    maxLines: 1,
+                    color: Colors.white,
+                  ),
+                ],
               ),
-              DropdownField(
-                label: S.of(context).categories,
-                hint: S.of(context).categories,
-                color: Colors.white,
-                options: categories,
-              ),
-              DropdownField(
-                label: "Person",
-                hint: "Person",
-                color: Colors.white,
-                options: person,
-              ),
-              DropdownField(
-                label: "Company",
-                hint: "Company",
-                color: Colors.white,
-                options: company,
-              ),
-              DropdownField(
-                label: "ContractType",
-                hint: "ContractType",
-                color: Colors.white,
-                options: contractType,
-              ),
-              EntryField(
-                controller: contractNumber,
-                label: "Contract Number",
-                hint: "Contract Number",
-                maxLines: 1,
-                color: Colors.white,
-              ),
-            ],
+            ),
           ),
         ),
         Step(
           state: currentStep > 1 ? StepState.complete : StepState.indexed,
           isActive: currentStep >= 1,
           title: const Text(''),
-          content: Column(
-            children: <Widget>[
-              EntryField(
-                readOnly: true,
-                controller: startDate,
-                label: "start date",
-                hint: "start date",
-                maxLines: 1,
-                color: Colors.white,
-                onTap: () async {
-                  DateTime? pickedDate = await datePicker(
-                    "Select Contract Start Date",
-                    "Cancel",
-                    "OK",
-                    DateTime.now(),
-                    AppTheme.primaryColor,
-                    AppTheme.primaryColor,
-                  );
+          content: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.65,
+            child: Column(
+              children: <Widget>[
+                EntryField(
+                  readOnly: true,
+                  controller: startDate,
+                  label: "start date",
+                  hint: "start date",
+                  maxLines: 1,
+                  color: Colors.white,
+                  onTap: () async {
+                    DateTime? pickedDate = await datePicker(
+                      "Select Contract Start Date",
+                      "Cancel",
+                      "OK",
+                      DateTime.now(),
+                      AppTheme.primaryColor,
+                      AppTheme.primaryColor,
+                    );
 
-                  if (pickedDate != null) {
-                    String formattedDate =
-                        DateFormat('dd-MM-yyyy').format(pickedDate);
-                    setState(() {
-                      startDate.text = formattedDate;
-                    });
-                  } else {
-                    print("Date is not selected");
-                  }
-                },
-              ),
-              EntryField(
-                readOnly: true,
-                controller: endDate,
-                label: "end date",
-                hint: "end date",
-                maxLines: 1,
-                color: Colors.white,
-                onTap: () async {
-                  DateTime? pickedDate = await datePicker(
-                    "Select Contract End Date",
-                    "Cancel",
-                    "OK",
-                    DateTime.now(),
-                    AppTheme.primaryColor,
-                    AppTheme.primaryColor,
-                  );
+                    if (pickedDate != null) {
+                      String formattedDate =
+                          DateFormat('dd-MM-yyyy').format(pickedDate);
+                      setState(() {
+                        startDate.text = formattedDate;
+                      });
+                    } else {
+                      print("Date is not selected");
+                    }
+                  },
+                ),
+                EntryField(
+                  readOnly: true,
+                  controller: endDate,
+                  label: "end date",
+                  hint: "end date",
+                  maxLines: 1,
+                  color: Colors.white,
+                  onTap: () async {
+                    DateTime? pickedDate = await datePicker(
+                      "Select Contract End Date",
+                      "Cancel",
+                      "OK",
+                      DateTime.now(),
+                      AppTheme.primaryColor,
+                      AppTheme.primaryColor,
+                    );
 
-                  if (pickedDate != null) {
-                    String formattedDate =
-                        DateFormat('dd-MM-yyyy').format(pickedDate);
-                    setState(() {
-                      endDate.text = formattedDate;
-                    });
-                  } else {
-                    print("Date is not selected");
-                  }
-                },
-              ),
-              DropdownField(
-                label: "Price Period",
-                hint: "price period",
-                options: pricePeriod,
-                color: Colors.white,
-              ),
-              const EntryField(
-                label: "Payment Amount",
-                hint: "payment amount",
-                maxLines: 1,
-                color: Colors.white,
-                keyboardTypeParam:
-                    TextInputType.numberWithOptions(decimal: true),
-              ),
-              const SizedBox(height: 24),
-              const FormLabel(label: "Reminder Options"),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CheckboxField(
-                    label: "EMail",
-                  ),
-                  const SizedBox(width: 50),
-                  CheckboxField(
-                    label: "Notification",
-                  ),
-                ],
-              ),
-            ],
+                    if (pickedDate != null) {
+                      String formattedDate =
+                          DateFormat('dd-MM-yyyy').format(pickedDate);
+                      setState(() {
+                        endDate.text = formattedDate;
+                      });
+                    } else {
+                      print("Date is not selected");
+                    }
+                  },
+                ),
+                DropdownField(
+                  label: "Price Period",
+                  hint: "price period",
+                  options: pricePeriod,
+                  color: Colors.white,
+                ),
+                const EntryField(
+                  label: "Payment Amount",
+                  hint: "payment amount",
+                  maxLines: 1,
+                  color: Colors.white,
+                  keyboardTypeParam:
+                      TextInputType.numberWithOptions(decimal: true),
+                ),
+                const SizedBox(height: 24),
+                const FormLabel(label: "Reminder Options"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CheckboxField(
+                      label: "EMail",
+                    ),
+                    const SizedBox(width: 50),
+                    CheckboxField(
+                      label: "Notification",
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
         Step(
           state: currentStep > 2 ? StepState.complete : StepState.indexed,
           isActive: currentStep >= 2,
           title: const Text(''),
-          content: Column(
-            children: <Widget>[
-              InkWell(
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.26,
-                  width: MediaQuery.of(context).size.width,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      begin: AlignmentDirectional.topStart,
-                      end: AlignmentDirectional.bottomEnd,
-                      colors: [
-                        Color(0xffA278DE),
-                        Color(0xff484282),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      const Spacer(flex: 2),
-                      Image.asset(Assets.imagesImgUpload, scale: 2),
-                      const Spacer(flex: 2),
-                      Text(S.of(context).uploadFile,
-                          style: Theme.of(context).textTheme.titleLarge),
-                      const Spacer(),
-                      Text(
-                        "Camera, JPEG, PNG, PDF",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: Theme.of(context).disabledColor),
+          content: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.65,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  InkWell(
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.26,
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 0),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          begin: AlignmentDirectional.topStart,
+                          end: AlignmentDirectional.bottomEnd,
+                          colors: [
+                            Color(0xffA278DE),
+                            Color(0xff484282),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      const Spacer(),
-                    ],
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          const Spacer(flex: 2),
+                          Image.asset(Assets.imagesImgUpload, scale: 2),
+                          const Spacer(flex: 2),
+                          Text(S.of(context).uploadFile,
+                              style: Theme.of(context).textTheme.titleLarge),
+                          const Spacer(),
+                          Text(
+                            "Camera, JPEG, PNG, PDF",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                    color: Theme.of(context).disabledColor),
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      _showFileSourceToUploadSheet();
+                    },
                   ),
-                ),
-                onTap: () {
-                  _showFileSourceToUploadSheet();
-                },
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ];

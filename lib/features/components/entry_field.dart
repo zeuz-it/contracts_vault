@@ -21,6 +21,7 @@ class EntryField extends StatelessWidget {
   final double? radius;
   final Function? validator;
   final TextInputType? keyboardTypeParam;
+  final bool? isTopElement;
 
   const EntryField(
       {Key? key,
@@ -42,7 +43,8 @@ class EntryField extends StatelessWidget {
       this.hintColor,
       this.radius,
       this.validator,
-      this.keyboardTypeParam})
+      this.keyboardTypeParam,
+      this.isTopElement})
       : super(key: key);
 
   @override
@@ -51,7 +53,8 @@ class EntryField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (label != null) const SizedBox(height: 24),
+        if (label != null && isTopElement == null) const SizedBox(height: 24),
+        /* Eğer form'un ilk elementi ise yukarıdan boşluk verme*/
         if (label != null)
           Padding(
             padding:
@@ -77,7 +80,7 @@ class EntryField extends StatelessWidget {
                 textAlign: textAlign ?? TextAlign.start,
                 keyboardType: keyboardTypeParam ?? TextInputType.text,
                 /* Özel bir keyboardTypeParam gelmişse onu aksi halde 
-                default olarak text türünde input oluştur*/ 
+                default olarak text türünde input oluştur*/
                 inputFormatters: keyboardTypeParam ==
                         const TextInputType.numberWithOptions(decimal: true)
                     ? [
@@ -88,7 +91,7 @@ class EntryField extends StatelessWidget {
                   Eğer parametre olarak gelen keyboardTypeParam parametresi basamaklı 
                   decimal sayı ise sadece 0-9 arasındaki rakamlar ile . ve , karakterler
                   ine izin ver.
-                */ 
+                */
                 decoration: InputDecoration(
                   prefixIcon: prefixIcon,
                   suffixIcon: suffixIcon,
