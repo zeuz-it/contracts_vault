@@ -122,6 +122,9 @@
   "inWalletVia": "In wallet via",
   "phone": "Phone",
   "password": "Password",
-  "enterPassword": "Enter your password"
+  "enterPassword": "Enter your password",
+  "addNewContract": "Add New Contract",
+  "contractName": "Contract Name",
+  "categories": "Categories",
 
 }

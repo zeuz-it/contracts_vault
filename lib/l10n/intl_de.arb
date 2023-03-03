@@ -122,5 +122,8 @@
     "inWalletVia": "Im Portemonnaie über",
     "phone": "Telefon",
     "password": "Passwort",
-    "enterPassword": "Geben Sie Ihr Passwort ein"
+    "enterPassword": "Geben Sie Ihr Passwort ein",
+    "addNewContract": "nieuw contract toevoegen",
+    "contractName": "Vertrag Name",
+    "categories": "Categorieën",
 }

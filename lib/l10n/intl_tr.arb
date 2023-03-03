@@ -122,6 +122,9 @@
     "inWalletVia": "Cüzdanda",
     "phone": "Telefon",
     "password": "Şifre",
-    "enterPassword": "Şifrenizi Girin
+    "enterPassword": "Şifrenizi Girin,
+    "addNewContract": "Yeni Sözleşme Ekle",
+    "contractName": "Sözleşme Adı",
+    "categories": "Kategoriler",
 
 }

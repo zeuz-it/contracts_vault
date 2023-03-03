@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '/../../../features/app_navigation/ui/app_navigation.dart';
-import '/../../../features/add_contract/ui/create_item_page.dart';
+import '../features/add_contract/ui/add_contract_page.dart';
 import '/../../../features/add_contract/ui/published_page.dart';
 import '/../../../features/add_contract/ui/set_price_page.dart';
 import '/../../../features/support/ui/support_page.dart';
@@ -58,7 +58,7 @@ class AppNavigator extends StatelessWidget {
               builder = (_, __, ___) => const SupportPage();
               break;
             case createItemPage:
-              builder = (_, __, ___) => const CreateItemPage();
+              builder = (_, __, ___) => AddContractPage();
               break;
             case setPricePage:
               builder = (_, __, ___) => const SetPricePage();

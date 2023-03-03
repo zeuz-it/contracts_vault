@@ -1,5 +1,5 @@
 import 'package:blur/blur.dart';
-import 'package:contracts_vault/features/add_contract/ui/create_item_page.dart';
+import 'package:contracts_vault/features/add_contract/ui/add_contract_page.dart';
 import 'package:flutter/material.dart';
 import '/../../../features/custom_scaffold/ui/custom_scaffold.dart';
 import '/../../../features/settings/ui/explore_page.dart';
@@ -67,8 +67,8 @@ class _AppNavigationState extends State<AppNavigation> {
           blur: 4,
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () =>
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateItemPage())),
+          onPressed: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AddContractPage())),
           child: const Icon(Icons.add),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

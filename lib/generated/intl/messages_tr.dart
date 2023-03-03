@@ -182,5 +182,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "password": MessageLookupByLibrary.simpleMessage("Şifre"),
         "enterPassword":
             MessageLookupByLibrary.simpleMessage("Şifrenizi Girin"),
+        "addNewContract":
+            MessageLookupByLibrary.simpleMessage("Yeni Sözleşme Ekle"),
+        "contractName": MessageLookupByLibrary.simpleMessage("Sözleşme Adı"),
+        "categories": MessageLookupByLibrary.simpleMessage("Kategoriler"),
       };
 }

@@ -112,6 +112,7 @@ class _LoginUIState extends State<LoginUI> {
                               return 'Lütfen geçerli bir email adresi girin.';
                             }
                           },
+                          color: Colors.white,
                           controller: _emailController,
                           label: s.emailAddress,
                           hint: s.enterEmailAddress,
@@ -123,6 +124,7 @@ class _LoginUIState extends State<LoginUI> {
                               return 'Lütfen bir password girin.';
                             }
                           },
+                          color: Colors.white,
                           controller: _passwordController,
                           label: s.password,
                           hint: s.enterPassword,

@@ -1299,6 +1299,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Add New Contract`
+  String get addNewContract {
+    return Intl.message(
+      'Add New Contract',
+      name: 'addNewContract',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contract Name`
+  String get contractName {
+    return Intl.message(
+      'Contract Name',
+      name: 'contractName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Categories`
+  String get categories {
+    return Intl.message(
+      'Categories',
+      name: 'categories',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

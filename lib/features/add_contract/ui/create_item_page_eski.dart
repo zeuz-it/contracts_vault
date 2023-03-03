@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,8 +9,8 @@ import '../../components/custom_button.dart';
 import '../../components/entry_field.dart';
 import '../../custom_scaffold/ui/custom_scaffold.dart';
 
-class CreateItemPage extends StatelessWidget {
-  const CreateItemPage({Key? key}) : super(key: key);
+class AddContractPage extends StatelessWidget {
+  const AddContractPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

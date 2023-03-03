@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class EntryField extends StatelessWidget {
   final String? hint;
@@ -19,6 +20,7 @@ class EntryField extends StatelessWidget {
   final Color? hintColor;
   final double? radius;
   final Function? validator;
+  final TextInputType? keyboardTypeParam;
 
   const EntryField(
       {Key? key,
@@ -39,7 +41,8 @@ class EntryField extends StatelessWidget {
       this.suffix,
       this.hintColor,
       this.radius,
-      this.validator})
+      this.validator,
+      this.keyboardTypeParam})
       : super(key: key);
 
   @override
@@ -65,14 +68,27 @@ class EntryField extends StatelessWidget {
               child: TextFormField(
                 validator: (value) =>
                     validator != null ? validator!(value) : null,
-                style: theme.textTheme.bodyLarge,
+                style: const TextStyle(color: Colors.black, fontSize: 16),
                 controller: controller,
                 initialValue: initialValue,
                 readOnly: readOnly ?? false,
                 maxLines: maxLines,
                 minLines: minLines,
                 textAlign: textAlign ?? TextAlign.start,
-                keyboardType: textInputType,
+                keyboardType: keyboardTypeParam ?? TextInputType.text,
+                /* Özel bir keyboardTypeParam gelmişse onu aksi halde 
+                default olarak text türünde input oluştur*/ 
+                inputFormatters: keyboardTypeParam ==
+                        const TextInputType.numberWithOptions(decimal: true)
+                    ? [
+                        FilteringTextInputFormatter.allow(RegExp('[0-9.,]')),
+                      ]
+                    : null,
+                /* 
+                  Eğer parametre olarak gelen keyboardTypeParam parametresi basamaklı 
+                  decimal sayı ise sadece 0-9 arasındaki rakamlar ile . ve , karakterler
+                  ine izin ver.
+                */ 
                 decoration: InputDecoration(
                   prefixIcon: prefixIcon,
                   suffixIcon: suffixIcon,
