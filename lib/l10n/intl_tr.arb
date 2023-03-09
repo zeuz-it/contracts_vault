@@ -123,6 +123,8 @@
     "phone": "Telefon",
     "password": "Şifre",
     "enterPassword": "Şifrenizi Girin,
+    "passwordAgain": "Şifre Tekrar",
+    "enterPasswordAgain": "Şifrenizi Tekrar Girin,
     "addNewContract": "Yeni Sözleşme Ekle",
     "contractName": "Sözleşme Adı",
     "categories": "Kategoriler",

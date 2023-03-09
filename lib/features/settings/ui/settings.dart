@@ -81,9 +81,9 @@ class ExploreCard extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.close),
                 color: theme.disabledColor,
-                // onPressed: onPageChange,
-                // onPressed: () => FirebaseAuth.instance.signOut(),
-                onPressed: () => context.read<AuthBloc>().add(SignOutRequested()),
+                onPressed: () async {
+                  context.read<AuthBloc>().add(AuthSignedOut());
+                },
               ),
               const SizedBox(width: 4),
             ],

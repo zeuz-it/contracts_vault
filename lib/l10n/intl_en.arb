@@ -123,6 +123,8 @@
   "phone": "Phone",
   "password": "Password",
   "enterPassword": "Enter your password",
+  "passwordAgain": "Password Again",
+  "enterPasswordAgain": "Enter your password again",
   "addNewContract": "Add New Contract",
   "contractName": "Contract Name",
   "categories": "Categories",

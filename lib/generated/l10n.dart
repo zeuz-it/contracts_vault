@@ -1290,11 +1290,31 @@ class S {
     );
   }
 
+  /// `Password Again`
+  String get passwordAgain {
+    return Intl.message(
+      'Password Again',
+      name: 'passwordAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Enter Password`
   String get enterPassword {
     return Intl.message(
       'Enter Password',
       name: 'enterPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Password Again`
+  String get enterPasswordAgain {
+    return Intl.message(
+      'Enter Password Again',
+      name: 'enterPasswordAgain',
       desc: '',
       args: [],
     );

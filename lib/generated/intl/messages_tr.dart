@@ -182,6 +182,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "password": MessageLookupByLibrary.simpleMessage("Şifre"),
         "enterPassword":
             MessageLookupByLibrary.simpleMessage("Şifrenizi Girin"),
+        "passwordAgain": MessageLookupByLibrary.simpleMessage("Şifre Tekrar"),
+        "enterPasswordAgain":
+            MessageLookupByLibrary.simpleMessage("Şifrenizi Tekrar Girin"),
         "addNewContract":
             MessageLookupByLibrary.simpleMessage("Yeni Sözleşme Ekle"),
         "contractName": MessageLookupByLibrary.simpleMessage("Sözleşme Adı"),

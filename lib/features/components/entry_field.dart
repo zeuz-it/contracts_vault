@@ -20,8 +20,10 @@ class EntryField extends StatelessWidget {
   final Color? hintColor;
   final double? radius;
   final Function? validator;
+  final Function? onChanged;
   final TextInputType? keyboardTypeParam;
   final bool? isTopElement;
+  final String? errorText;
 
   const EntryField(
       {Key? key,
@@ -44,7 +46,9 @@ class EntryField extends StatelessWidget {
       this.radius,
       this.validator,
       this.keyboardTypeParam,
-      this.isTopElement})
+      this.isTopElement,
+      this.onChanged,
+      this.errorText})
       : super(key: key);
 
   @override
@@ -71,6 +75,8 @@ class EntryField extends StatelessWidget {
               child: TextFormField(
                 validator: (value) =>
                     validator != null ? validator!(value) : null,
+                onChanged: (value) =>
+                    onChanged != null ? onChanged!(value) : null,
                 style: const TextStyle(color: Colors.black, fontSize: 16),
                 controller: controller,
                 initialValue: initialValue,
@@ -105,6 +111,7 @@ class EntryField extends StatelessWidget {
                     borderRadius: BorderRadius.circular(radius ?? 8),
                   ),
                   isDense: true,
+                  errorText: errorText ?? "",
                 ),
                 onTap: onTap,
               ),

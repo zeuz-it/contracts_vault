@@ -183,6 +183,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "password": MessageLookupByLibrary.simpleMessage("Passwort"),
         "enterPassword":
             MessageLookupByLibrary.simpleMessage("Geben Sie Ihr Passwort ein"),
+        "passwordAgain": MessageLookupByLibrary.simpleMessage("Passwort Weer"),
+        "enterPasswordAgain": MessageLookupByLibrary.simpleMessage(
+            "Geben Sie Ihr Passwort erneut ein"),
         "addNewContract":
             MessageLookupByLibrary.simpleMessage("nieuw contract toevoegen"),
         "contractName": MessageLookupByLibrary.simpleMessage("Vertrag Name"),

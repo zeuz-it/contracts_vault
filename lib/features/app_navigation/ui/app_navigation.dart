@@ -2,7 +2,7 @@ import 'package:blur/blur.dart';
 import 'package:contracts_vault/features/add_contract/ui/add_contract_page.dart';
 import 'package:flutter/material.dart';
 import '/../../../features/custom_scaffold/ui/custom_scaffold.dart';
-import '/../../../features/settings/ui/explore_page.dart';
+import '../../settings/ui/settings.dart';
 import '/../../../features/contracts/ui/notifications_page.dart';
 
 class AppNavigation extends StatefulWidget {
