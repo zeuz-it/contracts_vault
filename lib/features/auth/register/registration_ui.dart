@@ -39,9 +39,7 @@ class _RegistrationUIState extends State<RegistrationUI> {
       listeners: [
         BlocListener<FormBloc, FormsValidate>(
           listener: (context, state) {
-            if (state.errorMessage.isNotEmpty) {
-              errorDialog(context, state);
-            } else if (state.isFormValid && !state.isLoading) {
+            if (state.isFormValid && !state.isLoading) {
               context.read<AuthBloc>().add(AuthStarted());
               context.read<FormBloc>().add(const FormSucceeded());
             } else if (state.isFormValidateFailed) {
