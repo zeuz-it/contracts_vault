@@ -1,6 +1,6 @@
 import 'package:blur/blur.dart';
 import 'package:contracts_vault/features/app_navigation/ui/app_navigation.dart';
-import 'package:contracts_vault/features/form-validation/bloc/form_bloc.dart';
+import 'login-form-validation/bloc/login_form_bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,7 +59,7 @@ class _LoginUIState extends State<LoginUI> {
         backgroundColor: Colors.transparent,
         body: MultiBlocListener(
           listeners: [
-            BlocListener<FormBloc, FormsValidate>(
+            BlocListener<LoginFormBloc, FormsValidate>(
               listener: (context, state) {
                 if (state.errorMessage.isNotEmpty) {
                   errorDialog(context, state);
@@ -183,7 +183,7 @@ class _LoginUIState extends State<LoginUI> {
                   children: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: const Text("Ok"),
+                      child: const Text("Red"),
                     ),
                   ],
                 ),
@@ -200,7 +200,7 @@ class _LoginUIState extends State<LoginUI> {
   }
 
   signInButton(BuildContext context) {
-    return BlocBuilder<FormBloc, FormsValidate>(
+    return BlocBuilder<LoginFormBloc, FormsValidate>(
       builder: (context, state) {
         return Column(
           children: [
@@ -221,7 +221,7 @@ class _LoginUIState extends State<LoginUI> {
                       padding: const EdgeInsets.all(14),
                       onTap: !state.isFormValid
                           ? () => context
-                              .read<FormBloc>()
+                              .read<LoginFormBloc>()
                               .add(const FormSubmitted(value: Status.signIn))
                           : null,
                     ),
@@ -233,7 +233,7 @@ class _LoginUIState extends State<LoginUI> {
   }
 
   emailField(S s) {
-    return BlocBuilder<FormBloc, FormsValidate>(
+    return BlocBuilder<LoginFormBloc, FormsValidate>(
       builder: (context, state) {
         return EntryField(
           color: Colors.white,
@@ -245,7 +245,7 @@ class _LoginUIState extends State<LoginUI> {
               ? '''Please ensure the email entered is valid'''
               : null,
           onChanged: (value) {
-            context.read<FormBloc>().add(EmailChanged(value));
+            context.read<LoginFormBloc>().add(EmailChanged(value));
           },
         );
       },
@@ -253,7 +253,7 @@ class _LoginUIState extends State<LoginUI> {
   }
 
   passwordField(S s) {
-    return BlocBuilder<FormBloc, FormsValidate>(
+    return BlocBuilder<LoginFormBloc, FormsValidate>(
       builder: (context, state) {
         return EntryField(
           color: Colors.white,
@@ -265,7 +265,7 @@ class _LoginUIState extends State<LoginUI> {
               ? '''Password must be at least 8 characters and contain at least one letter and number'''
               : null,
           onChanged: (value) {
-            context.read<FormBloc>().add(PasswordChanged(value));
+            context.read<LoginFormBloc>().add(PasswordChanged(value));
           },
         );
       },
@@ -286,7 +286,7 @@ class _LoginUIState extends State<LoginUI> {
   }
 
   appleButton(BuildContext context, ThemeData theme) {
-    return BlocBuilder<FormBloc, FormsValidate>(
+    return BlocBuilder<LoginFormBloc, FormsValidate>(
       builder: (context, state) {
         return CustomButton(
           padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
@@ -307,7 +307,7 @@ class _LoginUIState extends State<LoginUI> {
   }
 
   phoneButton(BuildContext context, ThemeData theme) {
-    return BlocBuilder<FormBloc, FormsValidate>(
+    return BlocBuilder<LoginFormBloc, FormsValidate>(
       builder: (context, state) {
         return CustomButton(
           padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
@@ -325,7 +325,7 @@ class _LoginUIState extends State<LoginUI> {
   }
 
   googleButton(BuildContext context, ThemeData theme) {
-    return BlocBuilder<FormBloc, FormsValidate>(
+    return BlocBuilder<LoginFormBloc, FormsValidate>(
       builder: (context, state) {
         return CustomButton(
           padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
@@ -346,7 +346,7 @@ class _LoginUIState extends State<LoginUI> {
   }
 
   facebookButton(BuildContext context, ThemeData theme) {
-    return BlocBuilder<FormBloc, FormsValidate>(
+    return BlocBuilder<LoginFormBloc, FormsValidate>(
       builder: (context, state) {
         return CustomButton(
           padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),

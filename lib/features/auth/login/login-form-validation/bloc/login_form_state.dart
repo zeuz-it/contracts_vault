@@ -1,4 +1,4 @@
-part of 'form_bloc.dart';
+part of 'login_form_bloc.dart';
 
 abstract class FormState extends Equatable {
   const FormState();
@@ -13,22 +13,18 @@ class FormsValidate extends FormState {
   const FormsValidate(
       {required this.email,
       required this.password,
-      required this.passwordAgain,
       required this.isEmailValid,
-      required this.isPasswordValid,
-      required this.isPasswordAgainValid,
+      required this.isPasswordValid,      
       required this.isFormValid,
       required this.isLoading,
       this.errorMessage = "",      
       required this.isFormValidateFailed,
       this.isFormSuccessful = false});
-
+  
   final String email;
   final String password;
-  final String passwordAgain;
   final bool isEmailValid;
-  final bool isPasswordValid;
-  final bool isPasswordAgainValid;
+  final bool isPasswordValid;  
   final bool isFormValid;  
   final bool isFormValidateFailed;
   final bool isLoading;
@@ -38,10 +34,8 @@ class FormsValidate extends FormState {
   FormsValidate copyWith(
       {String? email,
       String? password,
-      String? passwordAgain,
       bool? isEmailValid,
-      bool? isPasswordValid,
-      bool? isPasswordAgainValid,
+      bool? isPasswordValid,      
       bool? isFormValid,
       bool? isLoading,
       String? errorMessage,      
@@ -50,10 +44,8 @@ class FormsValidate extends FormState {
     return FormsValidate(
         email: email ?? this.email,
         password: password ?? this.password,
-        passwordAgain: passwordAgain ?? this.passwordAgain,
         isEmailValid: isEmailValid ?? this.isEmailValid,
         isPasswordValid: isPasswordValid ?? this.isPasswordValid,
-        isPasswordAgainValid: isPasswordAgainValid ?? this.isPasswordAgainValid,
         isFormValid: isFormValid ?? this.isFormValid,
         isLoading: isLoading ?? this.isLoading,
         errorMessage: errorMessage ?? this.errorMessage,
@@ -65,10 +57,8 @@ class FormsValidate extends FormState {
   List<Object?> get props => [
         email,
         password,
-        passwordAgain,
         isEmailValid,
         isPasswordValid,
-        isPasswordAgainValid,
         isFormValid,
         isLoading,
         errorMessage,

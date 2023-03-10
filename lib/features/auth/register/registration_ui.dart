@@ -1,6 +1,7 @@
 import 'package:blur/blur.dart';
 import 'package:contracts_vault/features/app_navigation/ui/app_navigation.dart';
-import 'package:contracts_vault/features/form-validation/bloc/form_bloc.dart';
+import 'package:contracts_vault/features/auth/login/login_ui.dart';
+import 'register-form-validation/bloc/register_form_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,11 +38,12 @@ class _RegistrationUIState extends State<RegistrationUI> {
     var s = S.of(context);
     return MultiBlocListener(
       listeners: [
-        BlocListener<FormBloc, FormsValidate>(
+        BlocListener<RegisterFormBloc, FormsValidate>(
           listener: (context, state) {
-            if (state.isFormValid && !state.isLoading) {
-              context.read<AuthBloc>().add(AuthStarted());
-              context.read<FormBloc>().add(const FormSucceeded());
+            if (state.errorMessage.isNotEmpty) {
+              errorDialog(context, state);
+            } else if (state.isFormValid && !state.isLoading) {
+              context.read<RegisterFormBloc>().add(const FormSucceeded());
             } else if (state.isFormValidateFailed) {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text("Please fill the data correctly!")));
@@ -87,8 +89,61 @@ class _RegistrationUIState extends State<RegistrationUI> {
     );
   }
 
+  Future<void> errorDialog(BuildContext context, FormsValidate state) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Center(
+          child: Container(
+            color: Colors.transparent,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        state.errorMessage.toString(),
+                        style:
+                            const TextStyle(color: Colors.blue, fontSize: 24),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        _emailController.clear();
+                        _passwordController.clear();
+                        _passwordAgainController.clear();
+                        // Navigator.of(context).pop();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const LoginUI(),
+                          ),
+                        );
+                      },
+                      child: const Text("Ok"),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ).frosted(
+            frostColor: Theme.of(context).hintColor,
+            padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+            borderRadius: BorderRadius.circular(18),
+          ),
+        );
+      },
+    );
+  }
+
   signUpButton(BuildContext context, S s) {
-    return BlocBuilder<FormBloc, FormsValidate>(
+    return BlocBuilder<RegisterFormBloc, FormsValidate>(
       builder: (context, state) {
         return Column(
           children: [
@@ -110,7 +165,7 @@ class _RegistrationUIState extends State<RegistrationUI> {
                       padding: const EdgeInsets.all(14),
                       onTap: !state.isFormValid
                           ? () => context
-                              .read<FormBloc>()
+                              .read<RegisterFormBloc>()
                               .add(const FormSubmitted(value: Status.signUp))
                           : null,
                     ),
@@ -122,7 +177,7 @@ class _RegistrationUIState extends State<RegistrationUI> {
   }
 
   emailField(S s) {
-    return BlocBuilder<FormBloc, FormsValidate>(
+    return BlocBuilder<RegisterFormBloc, FormsValidate>(
       builder: (context, state) {
         return EntryField(
           color: Colors.white,
@@ -130,8 +185,11 @@ class _RegistrationUIState extends State<RegistrationUI> {
           label: s.emailAddress,
           hint: s.enterEmailAddress,
           maxLines: 1,
+          errorText: !state.isEmailValid
+              ? '''Please ensure the email entered is valid'''
+              : null,
           onChanged: (value) {
-            context.read<FormBloc>().add(EmailChanged(value));
+            context.read<RegisterFormBloc>().add(EmailChanged(value));
           },
         );
       },
@@ -139,7 +197,7 @@ class _RegistrationUIState extends State<RegistrationUI> {
   }
 
   passwordField(S s) {
-    return BlocBuilder<FormBloc, FormsValidate>(
+    return BlocBuilder<RegisterFormBloc, FormsValidate>(
       builder: (context, state) {
         return EntryField(
           color: Colors.white,
@@ -151,7 +209,7 @@ class _RegistrationUIState extends State<RegistrationUI> {
               ? '''Password must be at least 8 characters and contain at least one letter and number'''
               : null,
           onChanged: (value) {
-            context.read<FormBloc>().add(PasswordChanged(value));
+            context.read<RegisterFormBloc>().add(PasswordChanged(value));
           },
         );
       },
@@ -159,7 +217,7 @@ class _RegistrationUIState extends State<RegistrationUI> {
   }
 
   passwordAgainField(S s) {
-    return BlocBuilder<FormBloc, FormsValidate>(
+    return BlocBuilder<RegisterFormBloc, FormsValidate>(
       builder: (context, state) {
         return EntryField(
           color: Colors.white,
@@ -171,51 +229,9 @@ class _RegistrationUIState extends State<RegistrationUI> {
               !state.isPasswordAgainValid ? '''şifreler uyuşmuyor''' : null,
           onChanged: (value) {
             context
-                .read<FormBloc>()
+                .read<RegisterFormBloc>()
                 .add(PasswordAgainChanged(state.password, value));
           },
-        );
-      },
-    );
-  }
-
-  Future<void> errorDialog(BuildContext context, FormsValidate state) {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return Center(
-          child: Container(
-            color: Colors.transparent,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        state.errorMessage.toString(),
-                        style: const TextStyle(color: Colors.red, fontSize: 24),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: const Text("Ok"),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ).frosted(
-            frostColor: Theme.of(context).hintColor,
-            padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-            borderRadius: BorderRadius.circular(18),
-          ),
         );
       },
     );

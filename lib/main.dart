@@ -1,6 +1,6 @@
-import 'package:contracts_vault/features/app_navigation/ui/app_navigation.dart';
 import 'package:contracts_vault/features/auth/bloc/auth_bloc.dart';
-import 'package:contracts_vault/features/auth/login_navigator.dart';
+import 'package:contracts_vault/features/auth/login/login-form-validation/bloc/login_form_bloc.dart';
+import 'package:contracts_vault/features/auth/register/register-form-validation/bloc/register_form_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +12,6 @@ import 'app_bloc_observer.dart';
 import 'features/auth/auth_repository_impl.dart';
 import 'features/database/bloc/database_bloc.dart';
 import 'features/database/database_repository_impl.dart';
-import 'features/form-validation/bloc/form_bloc.dart';
 import 'features/language/bloc/language_cubit.dart';
 import 'generated/l10n.dart';
 
@@ -28,12 +27,15 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
-              AuthBloc(AuthRepositoryImpl()),
+          create: (context) => AuthBloc(AuthRepositoryImpl()),
         ),
         BlocProvider(
           create: (context) =>
-              FormBloc(AuthRepositoryImpl(), DatabaseRepositoryImpl()),
+              LoginFormBloc(AuthRepositoryImpl(), DatabaseRepositoryImpl()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              RegisterFormBloc(AuthRepositoryImpl(), DatabaseRepositoryImpl()),
         ),
         BlocProvider(
           create: (context) => DatabaseBloc(DatabaseRepositoryImpl()),

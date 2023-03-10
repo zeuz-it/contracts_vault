@@ -1,4 +1,4 @@
-part of 'form_bloc.dart';
+part of 'register_form_bloc.dart';
 
 enum Status { signIn, signUp }
 
