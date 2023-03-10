@@ -29,7 +29,7 @@ void main() async {
       providers: [
         BlocProvider(
           create: (context) =>
-              AuthBloc(AuthRepositoryImpl())..add(AuthStarted()),
+              AuthBloc(AuthRepositoryImpl()),
         ),
         BlocProvider(
           create: (context) =>
