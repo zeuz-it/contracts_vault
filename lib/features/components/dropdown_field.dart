@@ -1,4 +1,3 @@
-import 'package:contracts_vault/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class DropdownField extends StatefulWidget {
@@ -11,6 +10,7 @@ class DropdownField extends StatefulWidget {
   final String? hint;
   final Color? hintColor;
   final Widget? suffix;
+  final bool isFirstElement;
 
   const DropdownField({
     super.key,
@@ -23,6 +23,7 @@ class DropdownField extends StatefulWidget {
     this.hint,
     this.hintColor,
     this.suffix,
+    this.isFirstElement = false,
   });
 
   @override
@@ -37,7 +38,8 @@ class _DropdownFieldState extends State<DropdownField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (widget.label != null) const SizedBox(height: 24),
+        if (widget.label != null && !widget.isFirstElement)
+          const SizedBox(height: 24),
         if (widget.label != null)
           Padding(
             padding: EdgeInsetsDirectional.only(

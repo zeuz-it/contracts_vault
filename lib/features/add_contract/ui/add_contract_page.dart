@@ -176,6 +176,7 @@ class _AddContractPageState extends State<AddContractPage> {
                     isTopElement: true,
                   ),
                   DropdownField(
+                    isFirstElement: true,/* input altında formun ilk dropdown'u ise üstteki gereksiz boşluğu kaldır,*/ 
                     label: S.of(context).categories,
                     hint: S.of(context).categories,
                     color: Colors.white,
