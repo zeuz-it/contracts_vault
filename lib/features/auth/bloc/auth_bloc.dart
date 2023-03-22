@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import '../auth_repository_impl.dart';
 import '../../models/user_model.dart';
@@ -27,10 +28,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthStartedWithGoogle>((event, emit) async {
       emit(AuthLoading());
       try {
-        await _authRepository.signInWithGoogle();
+        var userCredential = await _authRepository.signInWithGoogle();
         UserModel user = await _authRepository.getCurrentUser().first;
 
         if (user.uid != "uid") {
+          userCredential!.additionalUserInfo!.isNewUser
+              ? FirebaseFirestore.instance
+                  .collection("Users")
+                  .doc(user.uid)
+                  .set({"email": user.email})
+              : null;
+          /* Eğer kullanıcı yeni giriş yapmışsa, firestore db de Users collection'da bir collection oluştur. 
+          Bu diğer giriş yöntemlerinde de uygulandı.*/
+
           emit(const AuthSuccess());
         } else {
           emit(AuthFailure());
@@ -43,10 +53,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthStartedWithFacebook>((event, emit) async {
       emit(AuthLoading());
       try {
-        await _authRepository.signInWithFacebook();
+        var userCredential = await _authRepository.signInWithFacebook();
         UserModel user = await _authRepository.getCurrentUser().first;
 
         if (user.uid != "uid") {
+          userCredential!.additionalUserInfo!.isNewUser
+              ? FirebaseFirestore.instance
+                  .collection("Users")
+                  .doc(user.uid)
+                  .set({"email": user.email})
+              : null;
+
           emit(const AuthSuccess());
         } else {
           emit(AuthFailure());
@@ -59,10 +76,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthStartedWithApple>((event, emit) async {
       emit(AuthLoading());
       try {
-        await _authRepository.signInWithApple();
+        var userCredential = await _authRepository.signInWithApple();
         UserModel user = await _authRepository.getCurrentUser().first;
 
         if (user.uid != "uid") {
+          userCredential!.additionalUserInfo!.isNewUser
+              ? FirebaseFirestore.instance
+                  .collection("Users")
+                  .doc(user.uid)
+                  .set({"email": user.email})
+              : null;
+
           emit(const AuthSuccess());
         } else {
           emit(AuthFailure());

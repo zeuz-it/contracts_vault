@@ -90,7 +90,7 @@ class EntryField extends StatelessWidget {
                 inputFormatters: keyboardTypeParam ==
                         const TextInputType.numberWithOptions(decimal: true)
                     ? [
-                        FilteringTextInputFormatter.allow(RegExp('[0-9.,]')),
+                        FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
                       ]
                     : null,
                 /* 

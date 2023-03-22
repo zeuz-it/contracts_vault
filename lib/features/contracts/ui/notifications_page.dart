@@ -1,6 +1,9 @@
 import 'package:animation_wrappers/animations/faded_slide_animation.dart';
 import 'package:blur/blur.dart';
+import 'package:contracts_vault/features/auth/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart' hide Notification;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../auth/login/login_ui.dart';
 import '/../../../features/components/curved_image.dart';
 import '/../../../features/components/custom_button.dart';
 import '/../../../features/contracts/models/notification.dart';
@@ -15,36 +18,53 @@ class NotificationsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var s = S.of(context);
-    return FadedSlideAnimation(
-      beginOffset: const Offset(-0.56, 0.16),
-      endOffset: Offset.zero,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(s.notifications),
-        ),
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
-                itemCount: Notification.list.length,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  var notification = Notification.list[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12.0),
-                    child: _getTile(context, notification).frosted(
-                      frostColor: theme.hintColor,
-                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                  );
-                },
-              ),
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthFailure) {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => const LoginUI()),
+              (Route<dynamic> route) => false);
+        }
+      },
+      buildWhen: ((previous, current) {
+        if (current is AuthFailure) {
+          return false;
+        }
+        return true;
+      }),
+      builder: (context, state) {
+        return FadedSlideAnimation(
+          beginOffset: const Offset(-0.56, 0.16),
+          endOffset: Offset.zero,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(s.notifications),
             ),
-          ],
-        ),
-      ),
+            body: Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+                    itemCount: Notification.list.length,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      var notification = Notification.list[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12.0),
+                        child: _getTile(context, notification).frosted(
+                          frostColor: theme.hintColor,
+                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

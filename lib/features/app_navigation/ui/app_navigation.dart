@@ -21,7 +21,7 @@ class _AppNavigationState extends State<AppNavigation> {
   final List<Widget> _children = [
     const NotificationsPage(),
     Container(),
-    const ExplorePage(),
+    const SettingsPage(),
   ];
 
   void _onItemTapped(int index) {

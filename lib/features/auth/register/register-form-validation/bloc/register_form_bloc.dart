@@ -109,7 +109,10 @@ class RegisterFormBloc extends Bloc<FormEvent, FormsValidate> {
   }
 
   _updateUIAndSignUp(
-      FormSubmitted event, Emitter<FormsValidate> emit, UserModel user) async {
+    FormSubmitted event,
+    Emitter<FormsValidate> emit,
+    UserModel user,
+  ) async {
     emit(state.copyWith(
         errorMessage: "",
         isFormValid: _isPasswordValid(state.password) &&

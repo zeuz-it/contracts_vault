@@ -22,7 +22,7 @@ class AuthRepositoryImpl implements AuthRepository {
     için herhangi bir bağımlılık enjeksiyonu(dependency injection) kullanmadım, ancak 
     bir prod uygulamasında DI(dependency injection) kullanmak daha iyidir.
   */
-  
+
   @override
   Stream<UserModel> getCurrentUser() {
     return service.retrieveCurrentUser();
@@ -54,7 +54,7 @@ class AuthRepositoryImpl implements AuthRepository {
       throw FirebaseAuthException(code: e.code, message: e.message);
     }
   }
-  
+
   @override
   Future<UserCredential?> signInWithFacebook() {
     try {

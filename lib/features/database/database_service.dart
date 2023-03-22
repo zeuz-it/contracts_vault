@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../models/contract_model.dart';
 import '../models/user_model.dart';
 
 class DatabaseService {

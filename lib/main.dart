@@ -1,6 +1,7 @@
 import 'package:contracts_vault/features/auth/bloc/auth_bloc.dart';
 import 'package:contracts_vault/features/auth/login/login-form-validation/bloc/login_form_bloc.dart';
 import 'package:contracts_vault/features/auth/register/register-form-validation/bloc/register_form_bloc.dart';
+import 'package:contracts_vault/features/contracts/contract-form-validation/bloc/contract_form_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +22,7 @@ void main() async {
   // runApp(BlocProvider(
   //   create: (context) => LanguageCubit()..getCurrentLanguage(),
   //   child: const MyApp(),
-  // ));
+  // )
   Bloc.observer = AppBlocObserver();
   runApp(
     MultiBlocProvider(
@@ -36,6 +37,10 @@ void main() async {
         BlocProvider(
           create: (context) =>
               RegisterFormBloc(AuthRepositoryImpl(), DatabaseRepositoryImpl()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              ContractFormBloc(AuthRepositoryImpl(), DatabaseRepositoryImpl()),
         ),
         BlocProvider(
           create: (context) => DatabaseBloc(DatabaseRepositoryImpl()),

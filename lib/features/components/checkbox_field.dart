@@ -1,12 +1,17 @@
+import 'package:contracts_vault/features/contracts/contract-form-validation/bloc/contract_form_bloc.dart';
 import 'package:contracts_vault/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CheckboxField extends StatefulWidget {
-  bool checkboxValue = false;
   final String? label;
-  CheckboxField({
+  final void Function(bool?)? onChanged;
+  final bool? checkboxValue;
+  const CheckboxField({
     super.key,
     this.label,
+    this.onChanged,
+    this.checkboxValue,
   });
 
   @override
@@ -30,11 +35,8 @@ class _CheckboxFieldState extends State<CheckboxField> {
               checkColor: Colors.white,
               activeColor: AppTheme.primaryColor,
               value: widget.checkboxValue,
-              onChanged: (value) {
-                setState(() {
-                  widget.checkboxValue = value!;
-                });
-              },
+              onChanged: (value) =>
+                  widget.onChanged != null ? widget.onChanged!(value) : null,
             ),
           ),
           const SizedBox(width: 10),
@@ -45,11 +47,7 @@ class _CheckboxFieldState extends State<CheckboxField> {
                 widget.label!.toUpperCase(),
                 style: theme.textTheme.bodySmall,
               ),
-              onPressed: () {
-                setState(() {
-                  widget.checkboxValue = !widget.checkboxValue;
-                });
-              },
+              onPressed: () {},
             ),
           if (widget.label != null) const SizedBox(height: 12),
         ],

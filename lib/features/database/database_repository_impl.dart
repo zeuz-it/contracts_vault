@@ -1,3 +1,5 @@
+import 'package:contracts_vault/features/models/contract_model.dart';
+
 import '../models/user_model.dart';
 
 import 'database_service.dart';

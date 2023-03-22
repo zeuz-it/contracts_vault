@@ -11,6 +11,7 @@ class DropdownField extends StatefulWidget {
   final Color? hintColor;
   final Widget? suffix;
   final bool isFirstElement;
+  final void Function(String?)? onChanged;
 
   const DropdownField({
     super.key,
@@ -24,6 +25,7 @@ class DropdownField extends StatefulWidget {
     this.hintColor,
     this.suffix,
     this.isFirstElement = false,
+    this.onChanged,
   });
 
   @override
@@ -33,7 +35,7 @@ class DropdownField extends StatefulWidget {
 class _DropdownFieldState extends State<DropdownField> {
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = widget.options.first;
+    // String dropdownValue = widget.options.first;
     var theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -81,11 +83,8 @@ class _DropdownFieldState extends State<DropdownField> {
                   );
                   //value == widget.options.last
                 }).toList(),
-                onChanged: (String? val) {
-                  setState(() {
-                    dropdownValue = val!;
-                  });
-                },
+                onChanged: (value) =>
+                    widget.onChanged != null ? widget.onChanged!(value) : null,
               ),
             ),
             if (widget.suffix != null) widget.suffix!,
