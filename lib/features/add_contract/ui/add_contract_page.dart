@@ -3,7 +3,7 @@ import 'package:contracts_vault/features/components/checkbox_field.dart';
 import 'package:contracts_vault/features/components/dropdown_field.dart';
 import 'package:contracts_vault/features/components/file_source_to_upload.dart';
 import 'package:contracts_vault/features/components/form_label.dart';
-import 'package:contracts_vault/features/contracts/contract-form-validation/bloc/contract_form_bloc.dart';
+import 'package:contracts_vault/features/add_contract/contract-form-validation/bloc/contract_form_bloc.dart';
 import 'package:contracts_vault/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
